@@ -121,7 +121,7 @@ async def on_raw_reaction_add(payload):
             #content = message.content.lower()
             #e = disnake.Embed(title='Xác thực người dùng '+member , description=f"Vui lòng viết lại dòng dưới đây thành Tiếng Việt có dấu để tiếp tục\n" )
             #async def askQuestion(question):
-            i= random.randint(0,3)
+            i= random.randint(0,7)
             ques = quez[i]
             answ = answer[i]
             q =(f"**Thời gian 30s**. Vui lòng viết lại dòng dưới đây thành Tiếng Việt có dấu để tiếp tục\n `{ques}`")
