@@ -34,7 +34,7 @@ answer = [
 
 client = disnake.Client()
 
-client = commands.Bot(command_prefix=prefix, intents=disnake.Intents.all())
+client = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=disnake.Intents.all())
 
 
 client.setup = False
@@ -49,7 +49,7 @@ async def on_ready():
 
 @client.command()
 async def setup(ctx):
-    if ctx.author.id  == 756485142020751433:
+    if ctx.author.id  == owner:
         try:
             message_id = int(client.message_id)
         except ValueError:
@@ -190,7 +190,8 @@ async def calc(ctx, t:int , a:int=None, b:int=None , c:int=None):
             result_inf_default =int((t*60)/100) 
             result_car_default =int((t*10)/100)
             result_range_default =int((t*30)/100)
-            embed= disnake.Embed(title="Phương Trận", description =f"Tổng: {t} \n**Bộ Binh**: {result_inf_default} \n**Lính Xe**: {result_car_default} \n**Cung Thủ**: {result_range_default}", color =0x9208ea)
+            embed= disnake.Embed(title="", description =f"**Bộ Binh**: {result_inf_default} \n**Lính Xe**: {result_car_default} \n**Cung Thủ**: {result_range_default}", color =0x9208ea)
+            embed.add_field(name = f"Tổng:",value=f"{t}",inline= False)
             embed.set_footer(text="Đội hình Phương trận Mặc Định 60/10/30")
             await ctx.send(embed=embed)
     if a and b and c is not None:
@@ -198,7 +199,8 @@ async def calc(ctx, t:int , a:int=None, b:int=None , c:int=None):
             result_inf =int((t*a)/100) 
             result_car =int((t*b)/100)
             result_range =int((t*c)/100)
-            embed= disnake.Embed(title="Phương Trận", description =f"Tổng: {t} \n**Bộ Binh**: {result_inf} \n**Lính Xe**: {result_car} \n**Cung Thủ**: {result_range}", color =0x9208ea)
+            embed= disnake.Embed(title="", description =f"**Bộ Binh**: {result_inf} \n**Lính Xe**: {result_car} \n**Cung Thủ**: {result_range}", color =0x9208ea)
+            embed.add_field( name= f"Tổng: ", value = f"{t}" , inline= False)
             embed.set_footer(text=f"Đội hình Phương trận {a}/{b}/{c} ")
             await ctx.send(embed=embed)    
         else:
