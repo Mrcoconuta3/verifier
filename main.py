@@ -29,7 +29,7 @@ answer = [
     "bạn lan thích bốc đầu",
     "bé mèo kêu còn cái nịt",
     "siêu nhân gao biến hình thành công chúa",
-    "cần cù thì bù thông minh "
+    "cần cù thì bù thông minh"
 ]
 
 client = disnake.Client()
