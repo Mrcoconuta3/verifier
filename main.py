@@ -15,13 +15,21 @@ quez = [
     "con bo ko biet bay",
     "con meo thich bac ha",
     "con chim tha moi ve to",
-    "gio dong lanh buot"
+    "gio dong lanh buot",
+    "ban Lan thich boc dau",
+    "be meo keu con cai nit",
+    "sieu nhan Gao bien hinh thanh cong chua",
+    "điền vào chỗ trống: cần cù thì bù __ __ "
 ]
 answer = [
     "con bò không biết bay",
     "con mèo thích bạc hà",
     "con chim tha mồi về tổ",
-    "gió đông lạnh buốt"
+    "gió đông lạnh buốt",
+    "bạn lan thích bốc đầu",
+    "bé mèo kêu còn cái nịt",
+    "siêu nhân gao biến hình thành công chúa",
+    "cần cù thì bù thông minh "
 ]
 
 client = disnake.Client()
