@@ -116,12 +116,12 @@ async def on_raw_reaction_add(payload):
             i= random.randint(0,3)
             ques = quez[i]
             answ = answer[i]
-            q =(f"**Thời gian 15s**. Vui lòng viết lại dòng dưới đây thành Tiếng Việt có dấu để tiếp tục\n `{ques}`")
+            q =(f"**Thời gian 30s**. Vui lòng viết lại dòng dưới đây thành Tiếng Việt có dấu để tiếp tục\n `{ques}`")
     
             await member.send(q)
             print("Waiting for reply...")
             try:
-                userReply = await client.wait_for('message', check=check,timeout= 15)
+                userReply = await client.wait_for('message', check=check,timeout= 30)
                 userReply = userReply.content.lower()
                 if userReply == answ:
                     #print (userReply)
