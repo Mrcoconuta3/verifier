@@ -1,4 +1,3 @@
 aiohttp
 disnake
-datetime
 pytz
