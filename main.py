@@ -1,7 +1,7 @@
 import asyncio
-#from datetime import datetime
-#import datetime
-#import pytz
+from datetime import datetime
+import datetime
+import pytz
 from distutils.command.config import config
 from string import ascii_lowercase
 import random
@@ -13,9 +13,9 @@ prefix = Config.prefix
 token = Config.token
 owner = Config.owner
 
-#utc_dt = datetime.datetime.utcnow()
-#vn_hours = pytz.timezone('Asia/Ho_Chi_Minh')
-#vn = f"{utc_dt.astimezone(vn_hours)}"
+utc_dt = datetime.datetime.utcnow()
+vn_hours = pytz.timezone('Asia/Ho_Chi_Minh')
+vn = f"{utc_dt.astimezone(vn_hours)}"
 
 quez = [
     "con bo ko biet bay",
@@ -202,7 +202,7 @@ async def on_raw_reaction_remove(payload):
             except Exception as e:
                 raise e
 
-@client.command(aliases = ['message','dm'])
+@client.command(aliases = ['message','nhan'])
 async def dm (ctx, user:disnake.Member,* , message= None):
     if ctx.author.id == owner:
         if message != None:
@@ -235,11 +235,11 @@ async def calc(ctx, t:int , a:int=None, b:int=None , c:int=None):
         else:
             await ctx.reply('``Syntax Error: 3 chỉ số cuối phải là phần trăm lính (Tổng 100%)``')
             
-#@client.command(aliases = ["Utc","utc","UTC"])
-#async def utctime(ctx):
-#    utc = datetime.datetime.strftime(utc_dt, '%d/%m/%Y %H:%M:%S' )
-#    #print (utc)
-#    await ctx.reply(f"Giờ UTC: {utc}\nGiờ ICT: {vn}")
+@client.command(aliases = ["Utc","utc","UTC"])
+async def utctime(ctx):
+    utc = datetime.datetime.strftime(utc_dt, '%d/%m/%Y %H:%M:%S' )
+    #print (utc)
+    await ctx.reply(f"Giờ UTC: {utc}\nGiờ ICT: {vn}")
 
 client.run(token)
     
