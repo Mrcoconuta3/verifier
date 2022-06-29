@@ -8,3 +8,4 @@ class Config:
     owners= "756485142020751433"
     channel = "991242235146424340"
     owner = 756485142020751433
+    welcome_channel = "923898426620514305"
