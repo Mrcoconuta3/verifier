@@ -47,7 +47,7 @@ client.setup = False
 client.role_name = Config.verify_role
 client.message_id = Config.message_id
 client.channel_id = Config.channel
-
+client.welcome_channel = Config.welcome_channel
 
 @client.event
 async def on_ready():
@@ -60,7 +60,7 @@ async def on_member_join(user):
     embed.set_thumbnail(url= f"{user.avatar.url}")
     embed.set_author(name=f"{user.name} vừa tham gia", icon_url= f"{user.avatar.url}")
     embed.set_footer(text= f"{user.guild}", icon_url= f"{user.guild.icon.url}")
-    #embed.timestamp = datetime.datetime.now()
+    embed.timestamp = datetime.datetime.now()
 
     await channel.send(embed=embed)
 
@@ -72,7 +72,7 @@ async def on_member_remove(user):
     embed.set_thumbnail(url= f"{user.avatar.url}")
     embed.set_author(name=f"{user.name} vừa rời đi", icon_url= f"{user.avatar.url}")
     embed.set_footer(text= f"{user.guild}", icon_url= f"{user.guild.icon.url}")
-    #embed.timestamp = datetime.datetime.now()
+    embed.timestamp = datetime.datetime.now()
 
     await channel.send(embed=embed)
 
