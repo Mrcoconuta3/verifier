@@ -1,4 +1,7 @@
 import asyncio
+from datetime import datetime
+import datetime
+import pytz
 from distutils.command.config import config
 from string import ascii_lowercase
 import random
@@ -10,6 +13,9 @@ prefix = Config.prefix
 token = Config.token
 owner = Config.owner
 
+utc_dt = datetime.datetime.utcnow()
+vn_hours = pytz.timezone('Asia/Ho_Chi_Minh')
+vn = f"{utc_dt.astimezone(vn_hours)}"
 
 quez = [
     "con bo ko biet bay",
@@ -46,6 +52,29 @@ client.channel_id = Config.channel
 @client.event
 async def on_ready():
     print("Logged in as "+client.user.name)
+    
+@client.event
+async def on_member_join(user):
+    channel = client.get_channel(int(client.welcome_channel))
+    embed= disnake.Embed(description=f"Chào mừng thành viên thứ {len(list(user.guild.members))}\n" , color=0xADD8E6 )
+    embed.set_thumbnail(url= f"{user.avatar.url}")
+    embed.set_author(name=f"{user.name} vừa tham gia", icon_url= f"{user.avatar.url}")
+    embed.set_footer(text= f"{user.guild}", icon_url= f"{user.guild.icon.url}")
+    embed.timestamp = datetime.datetime.now()
+
+    await channel.send(embed=embed)
+
+
+@client.event
+async def on_member_remove(user):
+    channel = client.get_channel(int(client.welcome_channel))
+    embed= disnake.Embed(description=f"Nhóm còn {len(list(user.guild.members))} thành viên \n" , color=0xFFA500 )
+    embed.set_thumbnail(url= f"{user.avatar.url}")
+    embed.set_author(name=f"{user.name} vừa rời đi", icon_url= f"{user.avatar.url}")
+    embed.set_footer(text= f"{user.guild}", icon_url= f"{user.guild.icon.url}")
+    embed.timestamp = datetime.datetime.now()
+
+    await channel.send(embed=embed)
 
 @client.command()
 async def setup(ctx):
@@ -173,14 +202,14 @@ async def on_raw_reaction_remove(payload):
             except Exception as e:
                 raise e
 
-@client.command(name= 'message')
+@client.command(aliases = ['message','dm'])
 async def dm (ctx, user:disnake.Member,* , message= None):
     if ctx.author.id == owner:
         if message != None:
             try:
                 await user.send(message)
             except:
-                await ctx.send("Cant send message to "+user.name)
+                await ctx.reply("Cant send message to "+user.name)
     else:
         pass
     
@@ -193,7 +222,7 @@ async def calc(ctx, t:int , a:int=None, b:int=None , c:int=None):
             embed= disnake.Embed(title="", description =f"**Bộ Binh**: {result_inf_default} \n**Lính Xe**: {result_car_default} \n**Cung Thủ**: {result_range_default}", color =0x9208ea)
             embed.add_field(name = f"Tổng:",value=f"{t}",inline= False)
             embed.set_footer(text="Đội hình Phương trận Mặc Định 60/10/30")
-            await ctx.send(embed=embed)
+            await ctx.reply(embed=embed)
     if a and b and c is not None:
         if a+b+c ==100:
             result_inf =int((t*a)/100) 
@@ -202,9 +231,15 @@ async def calc(ctx, t:int , a:int=None, b:int=None , c:int=None):
             embed= disnake.Embed(title="", description =f"**Bộ Binh**: {result_inf} \n**Lính Xe**: {result_car} \n**Cung Thủ**: {result_range}", color =0x9208ea)
             embed.add_field( name= f"Tổng: ", value = f"{t}" , inline= False)
             embed.set_footer(text=f"Đội hình Phương trận {a}/{b}/{c} ")
-            await ctx.send(embed=embed)    
+            await ctx.reply(embed=embed)    
         else:
-            await ctx.send('``Syntax Error: 3 chỉ số cuối phải là phần trăm lính (Tổng 100%)``')
+            await ctx.reply('``Syntax Error: 3 chỉ số cuối phải là phần trăm lính (Tổng 100%)``')
+            
+@client.command(aliases = ["Utc","utc","UTC"])
+async def utctime(ctx):
+    utc = datetime.datetime.strftime(utc_dt, '%d/%m/%Y %H:%M:%S' )
+    #print (utc)
+    await ctx.reply(f"Giờ UTC: {utc}\nGiờ ICT: {vn}")
 
 client.run(token)
     
