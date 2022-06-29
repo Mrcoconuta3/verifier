@@ -13,9 +13,9 @@ prefix = Config.prefix
 token = Config.token
 owner = Config.owner
 
-utc_dt = datetime.datetime.utcnow()
-vn_hours = pytz.timezone('Asia/Ho_Chi_Minh')
-vn = f"{utc_dt.astimezone(vn_hours)}"
+#utc_dt = datetime.datetime.utcnow()
+#vn_hours = pytz.timezone('Asia/Ho_Chi_Minh')
+#vn = f"{utc_dt.astimezone(vn_hours)}"
 
 quez = [
     "con bo ko biet bay",
@@ -60,7 +60,7 @@ async def on_member_join(user):
     embed.set_thumbnail(url= f"{user.avatar.url}")
     embed.set_author(name=f"{user.name} vừa tham gia", icon_url= f"{user.avatar.url}")
     embed.set_footer(text= f"{user.guild}", icon_url= f"{user.guild.icon.url}")
-    embed.timestamp = datetime.datetime.now()
+    #embed.timestamp = datetime.datetime.now()
 
     await channel.send(embed=embed)
 
@@ -72,7 +72,7 @@ async def on_member_remove(user):
     embed.set_thumbnail(url= f"{user.avatar.url}")
     embed.set_author(name=f"{user.name} vừa rời đi", icon_url= f"{user.avatar.url}")
     embed.set_footer(text= f"{user.guild}", icon_url= f"{user.guild.icon.url}")
-    embed.timestamp = datetime.datetime.now()
+    #embed.timestamp = datetime.datetime.now()
 
     await channel.send(embed=embed)
 
@@ -235,11 +235,11 @@ async def calc(ctx, t:int , a:int=None, b:int=None , c:int=None):
         else:
             await ctx.reply('``Syntax Error: 3 chỉ số cuối phải là phần trăm lính (Tổng 100%)``')
             
-@client.command(aliases = ["Utc","utc","UTC"])
-async def utctime(ctx):
-    utc = datetime.datetime.strftime(utc_dt, '%d/%m/%Y %H:%M:%S' )
-    #print (utc)
-    await ctx.reply(f"Giờ UTC: {utc}\nGiờ ICT: {vn}")
+#@client.command(aliases = ["Utc","utc","UTC"])
+#async def utctime(ctx):
+#    utc = datetime.datetime.strftime(utc_dt, '%d/%m/%Y %H:%M:%S' )
+#    #print (utc)
+#    await ctx.reply(f"Giờ UTC: {utc}\nGiờ ICT: {vn}")
 
 client.run(token)
     
