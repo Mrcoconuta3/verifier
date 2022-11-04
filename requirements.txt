@@ -1,0 +1,6 @@
+aiohttp
+disnake
+pytz
+datetime
+pymongo
+dnspython
