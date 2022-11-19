@@ -82,7 +82,7 @@ class Modal(Modal, title='Xác thực'):
 
 class Buttons(discord.ui.View):
     def __init__(self,client):
-        super().__init__()
+        super().__init__(timeout=None)
         self.client = client
 
     @discord.ui.button(label="Bắt đầu xác thực",style=discord.ButtonStyle.green)
