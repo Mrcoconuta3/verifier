@@ -62,7 +62,7 @@ class Modal(Modal, title='Xác thực'):
                 pass
             
             await interaction.response.send_message(f'Thanks for your response',embed=embed, ephemeral=True, delete_after= 10)
-            await send_log(self.channel, content= f"✅{interaction.user.name} vừa xác minh", condition=True )
+            await send_log(self.channel, content= f"<a:tickgreen:1043567493970665593>{interaction.user.name} vừa xác minh", condition=True )
         else:
             #Đáp án sai
             embed.description=f"**{self.answer}**\nĐáp án sai, vui lòng thử lại"
@@ -97,9 +97,9 @@ class Buttons(discord.ui.View):
             verify = discord.utils.get(guild.roles, name=role_name)
             not_verify = discord.utils.get(guild.roles, name=role_un)
         except:
-            return print("Role Not Found\nTerminating Process")
+            print("Role Not Found\nTerminating Process")
 
-        await vff.send(f"💠{interaction.user.name} is verifying")
+        await vff.send(f"<a:typing:1043547534691418182>{interaction.user.name} đang xác minh")
         await interaction.response.send_modal(Modal(answ, ques, timetoend, vff, verify, not_verify))
 
 class verifys(commands.Cog):
