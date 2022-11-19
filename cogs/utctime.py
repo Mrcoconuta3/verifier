@@ -1,4 +1,4 @@
-from disnake.ext import commands
+from discord.ext import commands
 import datetime
 import pytz
 
@@ -33,5 +33,5 @@ class TimeZone(commands.Cog):
         except:
             await ctx.reply(f"Không tìm thấy múi giờ {args}")
 
-def setup(client):
-    client.add_cog(TimeZone(client))
+async def setup(client):
+    await client.add_cog(TimeZone(client))

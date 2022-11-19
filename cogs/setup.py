@@ -1,7 +1,7 @@
 import random
-import disnake
+import discord
 import asyncio
-from disnake.ext import commands
+from discord.ext import commands
 from config import Config , QA
 
 
@@ -66,6 +66,7 @@ class verify(commands.Cog):
         else:
             await ctx.reply("Only 2 options available on **verify** command ``enable/disable``")
 
-def setup(client):
-    client.add_cog(Setup(client))
-    client.add_cog(verify(client))
+async  def setup(client):
+    await client.add_cog(Setup(client))
+    await client.add_cog(verify(client))
+ 

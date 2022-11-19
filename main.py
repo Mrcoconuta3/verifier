@@ -1,13 +1,13 @@
 import asyncio
 from datetime import datetime, timedelta
 import datetime
-from string import ascii_lowercase
 import random
 from config import Config , QA
-import disnake
-from disnake.ext import commands , tasks
+import discord
+from discord.ext import commands , tasks 
 import pymongo
 import os
+from cogs.verification import Buttons
 
 cluster = pymongo.MongoClient(os.getenv("Mongo_url"))
 
@@ -18,10 +18,7 @@ prefix = Config.prefix
 owner = Config.owner
 last_time = None
 
-
-client = disnake.Client()
-
-client = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=disnake.Intents.all())
+client = commands.Bot(command_prefix=commands.when_mentioned_or(prefix), intents=discord.Intents.all())
 client.remove_command('help')
 
 client.rm = False
@@ -34,17 +31,20 @@ client.welcome_channel = Config.welcome_channel
 verify_log = Config.verify_log
 
 reminder_channel = '923912095479767040'
+
 @client.event
 async def on_ready():
     print("Logged in as "+client.user.name)
-    await client.change_presence(activity= disnake.Game(f"{prefix}help|| Developer: Hárry#9952"))
+    await client.change_presence(activity= discord.Game(f"{prefix}help|| Developer: Hárry#2958"))
+    verify_channel = client.get_channel(int(client.channel_id))
+    await verify_channel.send(view=Buttons(client))
                               
 @client.event
 async def on_message_edit(before, after):
     if before.author == client.user or before.author.bot:
         return
-    channel = disnake.utils.get(client.get_all_channels() ,name="nhật-ký")
-    embed= disnake.Embed(
+    channel = discord.utils.get(client.get_all_channels() ,name="nhật-ký")
+    embed= discord.Embed(
         timestamp= datetime.datetime.now(),
         description=f"Tin nhắn của {before.author.name} đã được chỉnh sửa ở <#{before.channel.id}>.",
         color= 0xff8c00
@@ -71,9 +71,9 @@ async def on_message_edit(before, after):
 
 @client.event
 async def on_message_delete(message):
-    channel = disnake.utils.get(client.get_all_channels() ,name="nhật-ký")
+    channel = discord.utils.get(client.get_all_channels() ,name="nhật-ký")
     if not message.attachments:
-        embed= disnake.Embed(
+        embed= discord.Embed(
             title="Tin nhắn bị xoá",
             description=f"Tin nhắn của ``{message.author.name}`` | đã bị xoá ở <#{message.channel.id}>.",
             color= 0xFF0000 ,
@@ -87,7 +87,7 @@ async def on_message_delete(message):
 
     if message.attachments:
 
-        embed = disnake.Embed(
+        embed = discord.Embed(
             description=f"**Nội dung của ``{message.author.name}`` | bị xoá ở <#{message.channel.id}>**",
             timestamp = datetime.datetime.now(), color = 0xFF0000
             )
@@ -149,8 +149,8 @@ async def on_raw_reaction_add(payload):
             if guild is None:
                 return print("Guild Not Found\nTerminating Process")
             try:
-                role = disnake.utils.get(guild.roles, name=client.role_name)
-                not_verify = disnake.utils.get(guild.roles, name=client.role_un)
+                role = discord.utils.get(guild.roles, name=client.role_name)
+                not_verify = discord.utils.get(guild.roles, name=client.role_un)
             except:
                 return print("Role Not Found\nTerminating Process")
             
@@ -185,9 +185,9 @@ async def on_raw_reaction_add(payload):
                 userReply = userReply.content.lower()
                 if answ in userReply :
                     if i == 24:
-                        await member.send(file=disnake.File('embankemdanhrang.jpg'))
+                        await member.send(file=discord.File('embankemdanhrang.jpg'))
                     if i == 25:
-                        await member.send(file=disnake.File('emchaodaica.jpg'))
+                        await member.send(file=discord.File('emchaodaica.jpg'))
                     print (userReply)
                     try:
                         await member.remove_roles(not_verify)
@@ -203,7 +203,7 @@ async def on_raw_reaction_add(payload):
                     new_count = current_count + 1
                     collection.update_one({"userid":member.id}, {"$set": {"count": new_count}}) 
                     
-                    em_fail = disnake.Embed(title = "Member", description = f"{member.mention} just failed the verification test | They now have {new_count} count!", color = 0xFF0000)
+                    em_fail = discord.Embed(title = "Member", description = f"{member.mention} just failed the verification test | They now have {new_count} count!", color = 0xFF0000)
                     em_fail.set_thumbnail(url= member.display_avatar.url)
                     await vff.send(embed=em_fail)
                 else:
@@ -214,7 +214,7 @@ async def on_raw_reaction_add(payload):
                 new_count = current_count + 1
                 collection.update_one({"userid":member.id}, {"$set": {"count": new_count}}) 
                 
-                em_timeout = disnake.Embed(title = "Member", description = f"{member.mention} ran out of time in verification test | They now have {new_count} count!", color = 0xFF0000)
+                em_timeout = discord.Embed(title = "Member", description = f"{member.mention} ran out of time in verification test | They now have {new_count} count!", color = 0xFF0000)
                 em_timeout.set_thumbnail(url= member.display_avatar.url)
                 await vff.send(embed=em_timeout)
             
@@ -230,8 +230,8 @@ async def on_raw_reaction_remove(payload):
             if guild is None:
                 return print("Guild Not Found\nTerminating Process")
             try:
-                role = disnake.utils.get(guild.roles, name=client.role_name)
-                not_verify = disnake.utils.get(guild.roles, name=client.role_un)
+                role = discord.utils.get(guild.roles, name=client.role_name)
+                not_verify = discord.utils.get(guild.roles, name=client.role_un)
             except:
                 return print("Role Not Found\nTerminating Process")
             
@@ -289,11 +289,13 @@ async def reminding(ctx, value ):
 async def on_command_error(error):
     if isinstance(error, commands.CommandNotFound):
         pass
-        
-for filename in os.listdir("./cogs"):
-    if filename.endswith(".py"):
-        client.load_extension(f"cogs.{filename[:-3]}")
-        print(f"Load Cog: {filename[:-3]}")
+
+@client.event
+async def setup_hook():
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
+            await client.load_extension(f"cogs.{filename[:-3]}")
+            print(f"Load Cog: {filename[:-3]}")
 
 client.run(os.getenv("token"))
     

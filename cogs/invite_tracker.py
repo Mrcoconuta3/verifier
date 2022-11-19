@@ -1,7 +1,7 @@
 import datetime
-import disnake
+import discord
 import asyncio
-from disnake.ext import commands
+from discord.ext import commands
 from config import Config
 
 
@@ -34,7 +34,7 @@ class invite_tracker(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         logs = self.bot.get_channel(int(self.logs_channel))
-        eme = disnake.Embed(description=f"Chào mừng thành viên thứ {len(list(member.guild.members))}", color=0x03d692)
+        eme = discord.Embed(description=f"Chào mừng thành viên thứ {len(list(member.guild.members))}", color=0x03d692)
         eme.set_author(name=str(member), icon_url=member.display_avatar.url)
         eme.set_thumbnail(url= f"{member.display_avatar.url}")
         eme.set_footer(text="ID: " + str(member.id))
@@ -54,7 +54,7 @@ class invite_tracker(commands.Cog):
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         logs = self.bot.get_channel(int(self.logs_channel))
-        eme = disnake.Embed(description=f"Vừa rời đi nhóm còn {len(list(member.guild.members))} thành viên", color=0xff0000, title=" ")
+        eme = discord.Embed(description=f"Vừa rời đi nhóm còn {len(list(member.guild.members))} thành viên", color=0xff0000, title=" ")
         eme.set_author(name=str(member), icon_url=member.display_avatar.url)
         eme.set_footer(text="ID: " + str(member.id))
         eme.timestamp = member.joined_at
@@ -85,5 +85,5 @@ class invite_tracker(commands.Cog):
             pass
 
 
-def setup(client):
-    client.add_cog(invite_tracker(client))
+async def setup(client):
+    await client.add_cog(invite_tracker(client))

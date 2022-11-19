@@ -1,5 +1,5 @@
-import disnake
-from disnake.ext import commands
+import discord
+from discord.ext import commands
 from config import Config
 
 prefix = Config.prefix
@@ -27,7 +27,7 @@ class calc(commands.Cog):
                 result_inf_default =int((t*60)/100) 
                 result_car_default =int((t*10)/100)
                 result_range_default =int((t*30)/100)
-                embed= disnake.Embed(title="", description =f"**Bộ Binh**: {result_inf_default} \n**Lính Xe**: {result_car_default} \n**Cung Thủ**: {result_range_default}", color =0x9208ea)
+                embed= discord.Embed(title="", description =f"**Bộ Binh**: {result_inf_default} \n**Lính Xe**: {result_car_default} \n**Cung Thủ**: {result_range_default}", color =0x9208ea)
                 embed.add_field(name = f"Tổng:",value=f"{t}",inline= False)
                 embed.set_footer(text="Đội hình Phương trận Mặc Định 60/10/30")
                 await ctx.reply(embed=embed)
@@ -37,7 +37,7 @@ class calc(commands.Cog):
                     result_inf =int((t*a1)/100) 
                     result_car =int((t*b1)/100)
                     result_range =int((t*c1)/100)
-                    embed= disnake.Embed(title="", description =f"**Bộ Binh**: {result_inf} \n**Lính Xe**: {result_car} \n**Cung Thủ**: {result_range}", color =0x9208ea)
+                    embed= discord.Embed(title="", description =f"**Bộ Binh**: {result_inf} \n**Lính Xe**: {result_car} \n**Cung Thủ**: {result_range}", color =0x9208ea)
                     embed.add_field( name= f"Tổng: ", value = f"{t}" , inline= False)
                     embed.set_footer(text=f"Đội hình Phương trận {a1}/{b1}/{c1} ")
                     await ctx.reply(embed=embed)    
@@ -47,5 +47,5 @@ class calc(commands.Cog):
             await ctx.reply('`Thiếu giá trị tổng hoặc không tìm thấy kết quả`')
 
 
-def setup(client):
-    client.add_cog(calc(client))
+async def setup(client):
+    await client.add_cog(calc(client))

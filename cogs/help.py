@@ -1,6 +1,6 @@
-import disnake
-from disnake.ext import commands
-from disnake.errors import Forbidden
+import discord
+from discord.ext import commands
+from discord.errors import Forbidden
 from config import Config
 
 
@@ -38,7 +38,7 @@ class Help(commands.Cog):
                 owner = owner
 
             # starting to build embed
-            emb = disnake.Embed(title='Commands and modules', color=disnake.Color.blue(),
+            emb = discord.Embed(title='Commands and modules', color=discord.Color.blue(),
                                 description=f'Use `{prefix}help <module>` to gain more information about that module '
                                             f':smiley:\n')
 
@@ -63,7 +63,7 @@ class Help(commands.Cog):
                 emb.add_field(name='Not belonging to a module', value=commands_desc, inline=False)
 
             # setting information about author
-            emb.add_field(name="About", value=f"Based on disnake.py.\n\
+            emb.add_field(name="About", value=f"Based on discord.py.\n\
                                     This version of it is maintained by {owner}\n")
             emb.set_footer(text=f"Discord Bot "+self.client.user.name)
 
@@ -77,8 +77,8 @@ class Help(commands.Cog):
                 if cog.lower() == input[0].lower():
 
                     # making title - getting description from doc-string below class
-                    emb = disnake.Embed(title=f'{cog} - Commands', description=self.client.cogs[cog].__doc__,
-                                        color=disnake.Color.green())
+                    emb = discord.Embed(title=f'{cog} - Commands', description=self.client.cogs[cog].__doc__,
+                                        color=discord.Color.green())
 
                     # getting commands from cog
                     for command in self.client.get_cog(cog).get_commands():
@@ -91,27 +91,27 @@ class Help(commands.Cog):
             # if input not found
             # yes, for-loops have an else statement, it's called when no 'break' was issued
             else:
-                emb = disnake.Embed(title="What's that?!",
+                emb = discord.Embed(title="What's that?!",
                                     description=f"I've never heard from a module called `{input[0]}` before :scream:",
-                                    color=disnake.Color.orange())
+                                    color=discord.Color.orange())
 
         # too many cogs requested - only one at a time allowed
         elif len(input) > 1:
-            emb = disnake.Embed(title="That's too much.",
+            emb = discord.Embed(title="That's too much.",
                                 description="Please request only one module at once :sweat_smile:",
-                                color=disnake.Color.orange())
+                                color=discord.Color.orange())
 
         else:
-            emb = disnake.Embed(title="It's a magical place.",
+            emb = discord.Embed(title="It's a magical place.",
                                 description="I don't know how you got here. But I didn't see this coming at all.\n"
                                             "Would you please be so kind to report that issue to me on github?\n"
-                                            "https://github.com/nonchris/disnake-fury/issues\n"
+                                            "https://github.com/nonchris/discord-fury/issues\n"
                                             "Thank you! ~Chris",
-                                color=disnake.Color.red())
+                                color=discord.Color.red())
 
         # sending reply embed using our own function defined above
         await send_embed(ctx, emb)
 
 
-def setup(client):
-    client.add_cog(Help(client))
+async def setup(client):
+    await client.add_cog(Help(client))

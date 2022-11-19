@@ -1,6 +1,6 @@
 from http import client
-import disnake
-from disnake.ext import commands
+import discord
+from discord.ext import commands
 from config import Config
 
 class sendmessage(commands.Cog):
@@ -10,7 +10,7 @@ class sendmessage(commands.Cog):
         
     @commands.command()
     @commands.is_owner()
-    async def say(self, ctx, channel:disnake.TextChannel,* ,args='.'):
+    async def say(self, ctx, channel:discord.TextChannel,* ,args='.'):
         """Chỉ dành cho admin"""
         if ctx.message.attachments:
             files=[await f.to_file() for f in ctx.message.attachments]
@@ -31,7 +31,7 @@ class sendmessage(commands.Cog):
 
     @commands.command(category= "**Chỉ dành cho chủ sở hữu**")
     @commands.is_owner()
-    async def dm (self,ctx, user:disnake.Member,  *,message= None):
+    async def dm (self,ctx, user:discord.Member,  *,message= None):
         """Chỉ dành cho admin"""
         channel = await user.create_dm()
         def check(m):
@@ -83,5 +83,5 @@ class sendmessage(commands.Cog):
                     await ctx.send(f'Phản hồi từ {user.name} : {msg3.content}')
                     return
 
-def setup(client):
-    client.add_cog(sendmessage(client))
+async def setup(client):
+    await client.add_cog(sendmessage(client))
