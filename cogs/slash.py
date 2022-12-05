@@ -60,7 +60,7 @@ class calculator(commands.Cog, name="dumb"):
 
     @commands.command()
     async def sync(self,ctx) -> None:
-        fmt = await ctx.bot.tree.sync(guild= ctx.guild)
+        fmt = await ctx.bot.tree.sync(guild= ctx.guild)#You can delete the part in the Parentheses for globally use
         await ctx.reply(f'Đã đồng bộ {len(fmt)} commands.')
     
     @commands.hybrid_command(
@@ -68,7 +68,7 @@ class calculator(commands.Cog, name="dumb"):
         description="Tính toán thời gian để viện trợ"
     )
     @app_commands.describe(yourtime="Thời gian hành quân của bạn đến mục tiêu. VD:1p50s", theleadertime="Thời gian hành quân của kẻ địch/đồng minh tới mục tiêu. VD:2p10s", rallytime = "Thời gian Rally. VD:5p")
-    @app_commands.guilds(923898426096222209)
+    @app_commands.guilds(923898426096222209) #Replace this with your guild id if you want to use this locally or Delete this line for Globally
     async def rein(self, context:Context, yourtime:TimeConverter, theleadertime:TimeConverter, rallytime:TimeConverter) -> None:
         time, counting = dumbass(yourtime, theleadertime, rallytime)
         embed = discord.Embed(description= f'{time}',color= 0xcdfffb)
