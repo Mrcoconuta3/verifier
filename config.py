@@ -9,6 +9,7 @@ class Config:
     owner = 756485142020751433
     welcome_channel = "923898426620514305"
     verify_log = "991662855579504670"
+    
 class QA:
     thic_word = [" cu "," chim ","đm"]
     miss_code = ["hết lượt nhập","miss"]

@@ -4,7 +4,7 @@ import datetime
 import random
 from config import Config , QA
 import discord
-from discord.ext import commands , tasks 
+from discord.ext import commands 
 import pymongo
 import os
 from cogs.verification import Buttons
@@ -37,7 +37,12 @@ async def on_ready():
     print("Logged in as "+client.user.name)
     await client.change_presence(activity= discord.Game(f"{prefix}help|| Developer: Hárry#2958"))
     verify_channel = client.get_channel(int(client.channel_id))
-    await verify_channel.send(view=Buttons(client))
+    async for message in verify_channel.history(limit=20):
+        if int(message.author.id) == client.user.id:
+            print('Edited verify button!')
+            await message.edit(view=Buttons(client))
+            break
+    #await verify_channel.send(view=Buttons(client))
                               
 @client.event
 async def on_message_edit(before, after):
@@ -245,45 +250,6 @@ async def on_raw_reaction_remove(payload):
             except Exception as e:
                 raise e
 
-@tasks.loop(seconds=4)
-async def remindme():
-    if client.rm != True:
-        remindme.stop()
-        print('Rm Stopped')
-        return 
-    utc = datetime.datetime.strftime(datetime.datetime.utcnow(), '%H:%M:%S' )
-    uts = utc.split(':')
-    #print(uts)
-    if int(uts[0]) == 9 or int(uts[0]) == 15 or int(uts[0]) == 21 or int(uts[0]) == 3:
-        #print('Hours check')
-        if int(uts[1]) >= 58: 
-            print("----It's time----")
-            channel = client.get_channel(int(reminder_channel))
-            await channel.send('<@&998128479038095390> Boss sẽ xuất hiện sau 2 phút nữa')
-            await asyncio.sleep(120)
-        else:
-            #print('not now')
-            pass
-    else:
-        #print('wait few hour')
-        pass
-    
-
-@client.command()
-@commands.is_owner()
-async def reminding(ctx, value ):
-    if value.lower() == 'enable' or value.lower() =='true':
-        client.rm = True
-        remindme.start()
-        print('Reminder started')
-        await ctx.reply('Thông báo đã được bật')
-    elif value.lower() == 'disable' or value.lower() == 'false':
-        client.rm = False
-        remindme.stop()
-        print('Reminder stopped')
-        await ctx.reply('Thông báo đã được tắt')
-    else:
-        await ctx.reply("check again something isn't right")
     
 @client.event
 async def on_command_error(error):

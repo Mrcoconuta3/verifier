@@ -19,8 +19,9 @@ async def send_log(channel, content, condition):
         return await channel.send(embed=content)
 
 class Modal(Modal, title='Xác thực'):
-    def __init__(self, answ, ques, timetoend, channel , entry, not_entry):
+    def __init__(self, answ, ques, timetoend, channel , entry, not_entry, user):
         super().__init__(timeout= 120)
+        self.user = user
         self.time = timetoend
         self.channel = channel
         self.entry = entry
@@ -78,6 +79,7 @@ class Modal(Modal, title='Xác thực'):
 
     async def on_timeout(self) -> None:
         print('USER TIMEOUT!')
+        await send_log(self.channel, content= f"<a:hourglass_1:1049580896455495710> {self.user.mention} hết thời gian để xác minh", condition=True )
         return 
 
 class Buttons(discord.ui.View):
@@ -100,7 +102,7 @@ class Buttons(discord.ui.View):
             print("Role Not Found\nTerminating Process")
 
         await vff.send(f"<a:typing:1043547534691418182> {interaction.user.name} đang xác minh")
-        await interaction.response.send_modal(Modal(answ, ques, timetoend, vff, verify, not_verify))
+        await interaction.response.send_modal(Modal(answ, ques, timetoend, vff, verify, not_verify, user= interaction.user))
 
 class verifys(commands.Cog):
     def __init__(self,client):
