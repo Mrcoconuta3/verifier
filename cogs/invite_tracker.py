@@ -33,6 +33,8 @@ class invite_tracker(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        if int(member.guild.id) != int(Config.guild_id):
+            return
         logs = self.bot.get_channel(int(self.logs_channel))
         eme = discord.Embed(description=f"Chào mừng thành viên thứ {len(list(member.guild.members))}", color=0x03d692)
         eme.set_author(name=str(member), icon_url=member.display_avatar.url)

@@ -1,6 +1,7 @@
 class Config:
     prefix= "~"
     guild = "937047156924248155"
+    guild_id = "923898426096222209"
     role_un= "Chưa Xác Thực"
     verify_role= "Thành Viên"
     message_id= "991249451547107399"
