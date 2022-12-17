@@ -55,6 +55,8 @@ class invite_tracker(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        if int(member.guild.id) != int(Config.guild_id):
+            return
         logs = self.bot.get_channel(int(self.logs_channel))
         eme = discord.Embed(description=f"Vừa rời đi nhóm còn {len(list(member.guild.members))} thành viên", color=0xff0000, title=" ")
         eme.set_author(name=str(member), icon_url=member.display_avatar.url)
